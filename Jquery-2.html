@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jquery-2</title>
+    <script src="jquery-1.8.3.js"></script>
+    <script>
+        $(function () {
+            var index=0;
+            //自动切换下一张图片
+            var run=function run() {
+                index++;
+                index=index%5;
+                $("button").eq(index).css("background","red");
+                $("button").eq(index).siblings().css("background","#FFFFFF");
+                //1、让整个ul向左移动
+                $("ul").animate({left:"-408px"},500,function () {
+                    //执行完动画效果之后执行此方法
+                    $("li:last").after($("li:first"));
+                    $("ul").css("left","0px");
+                });
+            };
+            //setInterval(run,2000);//执行run方法轮播图片
+            //button按钮事件
+            $("button").bind("click",function () {
+                //获得当前button的值（1-2-3-4-5）所对应的图片与点击button之前的图片相差的数
+               var num = $(this).html()-index%5-1;
+                //将index变换成当前图片相应的数字，比如当点击第一个按钮时，index为0；
+                index=$(this).html()-1;
+                //button按钮变色
+                $("button").eq(index).css("background","red");
+                $("button").eq(index).siblings().css("background","#FFFFFF");
+               //根据相差的数，通过循环将图片移动到正确位置
+               if(num<0){
+                   num=-num;
+                   //当相差为负数时，将后面图片往前放
+                   for(var i=0;i<num;i++){
+                       $("li:first").before($("li:last"));
+                   }
+               }else {
+                   //当相差为正数时，将前面图片往后放
+                for(var i=0;i<num;i++){
+                    $("li:last").after($("li:first"));
+                }
+               }
+            });
+            //左右点击切换
+            $("#right").click(function(){
+                index++;
+                index=index%5;
+                $("button").eq(index).css("background","red");
+                $("button").eq(index).siblings().css("background","#FFFFFF");
+                $("ul").animate({left:"-408px"},500,function () {
+                    $("li:last").after($("li:first"));
+                    $("ul").css("left","0px");
+            });
+            });
+            $("#left").click(function(){
+                index--;
+                index=index%5;
+                $("button").eq(index).css("background","red");
+                $("button").eq(index).siblings().css("background","#FFFFFF");
+                $("li:first").before($("li:last"));
+                $("ul").animate({left:"0px"},500,function () {
+                    $("ul").css("left","0px");
+                });
+            });
+        });
+    </script>
+    <style>
+        ul{float: left;padding: 0px;margin: 0px;width: 2040px;position: relative}
+        li{float: left;padding: 0px;margin: 0px;list-style: none;}
+        li img{width: 400px;border: 1px solid red;margin: 2px;padding: 1px;}
+        .div1{width: 408px;overflow: hidden;}
+        .div2{width: 408px;padding-left: 120px;}
+        button{background-color: #FFFFFF}
+        #right{height:90px;width:30px;top:50%;margin-top:-180px;position:absolute;left: 400px}
+        #left{height:90px;width:30px;top:50%;margin-top:-180px;position:absolute;left: -10px;}
+    </style>
+</head>
+<body>
+<img src="left.jpg" id="left"/>
+<div class="div1">
+<ul>
+    <li><img src="1.jpg"></li>
+    <li><img src="2.jpg"></li>
+    <li><img src="3.jpg"></li>
+    <li><img src="4.jpg"></li>
+    <li><img src="5.jpg"></li>
+</ul>
+</div>
+<img src="right.jpg" id="right"/>
+<div class="div2">
+    <button style="background-color: red">1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+</div>
+</body>
+</html>
