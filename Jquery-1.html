@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jquery-1</title>
+    <script src="jquery-1.8.3.js"></script>
+    <script>
+    $(function () {
+        $("li").hover(function () {
+            $(this).css('background-color','yellow');
+            $(this).children('.ul1').stop(true,true).slideDown(500);
+        },function () {
+            $(this).css('background-color','#F9F9F9');
+            $(this).children('.ul1').stop(true,true).slideUp(100);
+            //stop(true,true)是为了每次快速的移入移出菜单时显示正常，当移入一个菜单的时候，
+            // 停止所有加入队列的动画，但是完成当前的动画（跳至当前动画的最终效果位置）
+        });
+    });
+    </script>
+    <style>
+        ul{margin: 0px;padding: 0px}
+        li{ width: 150px;position: relative;padding: 5px;
+            list-style: none;background-color: #F9F9F9;font-family: 黑体;font-weight: 400;
+            border-top:1px solid #CCCCCC;border-left:1px solid #CCCCCC;border-right:1px solid #CCCCCC;}
+        .last-li{border-bottom: 1px solid #CCCCCC}
+        .ul1{margin:0px;padding:0px;list-style-type:none; display: none;
+            position: absolute;left: 160px;top: -1px}
+    </style>
+</head>
+<body>
+<ul>
+    <li>Menu1
+        <ul class="ul1">
+            <li>Sub Menu1-1
+                <ul class="ul1">
+                    <li>menu1-1-1</li>
+                    <li class="last-li">menu1-1-2</li>
+                </ul>
+            </li>
+            <li>Sub Menu1-2</li>
+            <li class="last-li">Sub Menu1-3</li>
+        </ul>
+    </li>
+    <li>Menu2
+        <ul class="ul1">
+            <li>Sub Menu2-1</li>
+            <li>Sub Menu2-2</li>
+            <li class="last-li">Sub Menu2-3</li>
+        </ul>
+    </li>
+    <li>Menu3
+        <ul class="ul1">
+            <li>Sub Menu3-1</li>
+            <li>Sub Menu3-2</li>
+            <li class="last-li">Sub Menu3-3
+                <ul class="ul1">
+                    <li>menu3-3-1</li>
+                    <li class="last-li">menu3-3-2</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>Menu4
+        <ul class="ul1">
+            <li>Sub Menu4-1</li>
+            <li>Sub Menu4-2</li>
+            <li class="last-li">Sub Menu4-3</li>
+        </ul>
+    </li>
+    <li class="last-li">Menu5</li>
+</ul>
+</body>
+</html>
