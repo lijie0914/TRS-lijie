@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jquery-3</title>
+    <script src="jquery-1.8.3.js"></script>
+    <script>
+        $(function () {
+            var obj = [{id:1,name:"饮料",
+                    child:[
+                        {id:"1-1",name:"可乐",child:[
+                            {id:"1-1-1",name:"百事"},
+                            {id:"1-1-2",name:"可口"}]},
+                        {id:"1-2",name:"咖啡",child:[
+                            {id:"1-2-1",name:"卡布奇诺"},
+                            {id:"1-2-2",name:"美式咖啡"}]}
+                    ]},
+                {id:2,name:"主食"},
+                {id:3,name:"水果"}];
+            //调用递归算法
+            digui(obj);
+            //递归算法
+            function digui(obj,fatherId) {
+                var f="father";
+                if(fatherId!=null) f=fatherId;//判断传入的是不是第一层
+
+                $.each(obj,function (index,child) {
+                    //将缩进以及复选框添加上
+                    $("#"+f).append("<ul id='"+child.id+"'><input type='checkbox' value=''>"+child.name+"</ul>");
+                    //判断有没有child
+                    if(child.child!=undefined){
+                        //有child的话把孩子当做parent进行递归
+                        digui(child.child,child.id);
+                    }
+                });
+            };
+            
+            $("input").click(function () {//点击选中事件
+                if($(this).attr("checked")){//当选中时
+                    $(this).parent().find("input").attr("checked",true);//将其及其子代改为选中状态
+                    $(this).parents().children("input").attr("checked",true);//将其所有父亲变为选中状态
+                }else{//取消选中时
+                    $(this).parent().find("input").attr("checked",false);//将其及其子代变为未选中状态
+                    checked($(this).parent().attr("id"));//判断是否改变其父类状态
+                }
+            });
+            function checked(id) {
+                var level=(id.split("-")).length;
+                for(var i=0;i<level;i++){
+                    //判断父类子代的选择状况，如果为1说明只有父类为选中状态，此时取消其选中
+                    if($("#"+id).parent("ul").find(":checked").size()==1){
+                        $("#"+id).parent().children().first().attr("checked",false);
+                        //再调用方法判断父类的父类的选中状态
+                        checked($("#"+id).parent().attr("id"));
+                    }
+                }
+            }
+        });
+    </script>
+
+</head>
+<body>
+<div id="father"></div>
+</body>
+</html>
